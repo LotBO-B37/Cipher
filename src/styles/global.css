@@ -22,6 +22,8 @@ body {
   line-height: 1.75;
 }
 
+a { color: inherit; }
+
 .wrap {
   max-width: 1180px;
   margin: 0 auto;
