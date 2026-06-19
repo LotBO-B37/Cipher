@@ -1,0 +1,53 @@
+---
+const {
+  entry,
+  open = false,
+} = Astro.props;
+---
+
+<article class={`entry${open ? " open" : ""}`} id={entry.slug} data-c={entry.clusterId} data-t={entry.title}>
+  <button class="entry-head" type="button" aria-expanded={open} aria-controls={`${entry.slug}-body`}>
+    <div class="e-stripe" style={`background:${entry.stripeColor || "var(--oxblood)"}`}></div>
+    <div class="e-ref">{entry.ref}</div>
+
+    <div class="e-meta">
+      <div class="e-name">{entry.title}</div>
+      <div class="e-cluster">{entry.cluster}</div>
+    </div>
+
+    <div class="e-flags">
+      {entry.flags?.map((flag) => <span class={`flag flag-${flag.key}`}>{flag.label}</span>)}
+    </div>
+
+    <div class="e-chev">›</div>
+  </button>
+
+  <div class="entry-body" id={`${entry.slug}-body`}>
+    {entry.deck && <div class="e-deck">{entry.deck}</div>}
+
+    {entry.sections?.map((section) => (
+      <>
+        <div class="e-sh">{section.heading}</div>
+        <div set:html={section.html} />
+      </>
+    ))}
+
+    {entry.related?.length > 0 && (
+      <>
+        <div class="e-sh">Pairs With</div>
+        <ul class="pairs">
+          {entry.related.map((item) => <li>{item}</li>)}
+        </ul>
+      </>
+    )}
+
+    {entry.sourceNotes && (
+      <>
+        <div class="e-sh">Source Notes</div>
+        <p>{entry.sourceNotes}</p>
+      </>
+    )}
+
+    <a class="back-t" href="#top">Top</a>
+  </div>
+</article>
