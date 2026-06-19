@@ -1,0 +1,62 @@
+---
+const {
+  ref = "Section 01",
+  title = "Section title",
+  count = "",
+  eyebrowClass = "ox-label",
+} = Astro.props;
+---
+
+<div class="section-head reveal">
+  <div class="sh-left">
+    <div class={`sh-ref ${eyebrowClass}`}>{ref}</div>
+    <h2 class="sh-title">{title}</h2>
+  </div>
+
+  {count && <div class="sh-count">{count}</div>}
+</div>
+
+<style>
+  .section-head {
+    padding: 3.5rem 5rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .sh-ref {
+    margin-bottom: 0.4rem;
+  }
+
+  .sh-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .sh-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink2);
+  }
+
+  .sh-count {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--ink3);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 1000px) {
+    .section-head {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+</style>
