@@ -1,141 +1,59 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { cipherMeta, cipherEntries } from '../data/cipher';
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import SectionHead from "../components/SectionHead.astro";
+import EntryCard from "../components/EntryCard.astro";
+import { getCollection } from "astro:content";
+
+const entries = (await getCollection("entries")).sort(
+  (a, b) => a.data.ref.localeCompare(b.data.ref)
+);
+
+const featured = entries.filter((entry) => entry.data.status === "flagship").slice(0, 8);
 ---
 
-<Layout
-  title={`${cipherMeta.title} — ${cipherMeta.subtitle}`}
-  description={`${cipherMeta.title}, ${cipherMeta.edition}, ${cipherMeta.date}. A static Astro site for Netlify.`}
->
-  <main class="wrap">
-    <section class="hero grid hero-grid">
-      <div>
-        <div class="eyebrow">{cipherMeta.siteLabel} · {cipherMeta.date}</div>
-        <h1 class="title">
-          {cipherMeta.title}
-          <em>{cipherMeta.subtitle}</em>
-        </h1>
-        <p class="lead">
-          {cipherMeta.counts.entries} original concepts. A community-governed archive of working-class operational intelligence.
-          Static by default, semantic by design, and ready for Netlify.
-        </p>
-        <p><a class="btn" href="#clusters">Explore the archive</a></p>
-      </div>
+<Base title="The Cipher Archive">
+  <Nav />
 
-      <aside class="card side">
-        <div class="meta">
-          <div>
-            <div class="eyebrow">The project</div>
-            <strong>{cipherMeta.author}</strong>
-            <div class="small">{cipherMeta.edition}</div>
-          </div>
+  <main id="top">
+    <Hero />
 
-          <div>
-            <div class="eyebrow">Funding progress</div>
-            <strong>{cipherMeta.funding.raised.toLocaleString()} raised</strong>
-            <div class="bar" aria-hidden="true"></div>
-            <div class="small">{cipherMeta.funding.goal.toLocaleString()} goal</div>
-          </div>
+    <section id="about">
+      <SectionHead
+        ref="Section 01"
+        title="About this project"
+        count={`${entries.length} documented entries`}
+      />
 
-          <div>
-            <div class="eyebrow">The framework</div>
-            <div class="small">
-              {cipherMeta.counts.entries} concepts · {cipherMeta.counts.clusters} clusters · {cipherMeta.counts.generativeMechanisms} generative mechanisms
-            </div>
-          </div>
+      <div class="about-body">
+        <div class="about-col">
+          <p>
+            This is the landing page for the Astro version of The Cipher Archive.
+            It keeps the archive content structured and documented.
+          </p>
         </div>
-      </aside>
-    </section>
-
-    <section class="sections section" id="about">
-      <div class="eyebrow">What this is</div>
-      <h2>The intelligence does not need institutional permission to be real.</h2>
-      <div class="grid text-cols">
-        <p>
-          The Cipher names working-class operational intelligence in a vocabulary built from inside the experience rather than above it.
-          This version keeps the site lean, readable, and easy to deploy.
-        </p>
-        <p>
-          The page is driven from a single data file so the archive stays easy to update in GitHub without rebuilding the layout each time.
-        </p>
+        <div class="about-col">
+          <p>
+            Each entry is stored as a content item, so the site can grow without
+            editing one giant HTML file.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="sections section" id="clusters">
-      <div class="eyebrow">Cluster map</div>
-      <h2>Five clusters</h2>
+    <section id="archive">
+      <SectionHead
+        ref="Section 02"
+        title="Archive"
+        count={`${entries.length} entries`}
+      />
 
-      <div class="pillars">
-        {cipherMeta.clusters.map((cluster) => (
-          <article class="pill">
-            <div class="eyebrow">{cluster.id}</div>
-            <h3>{cluster.name}</h3>
-            <p>{cluster.question}</p>
-          </article>
+      <div class="entries-section">
+        {entries.map((entry) => (
+          <EntryCard entry={entry.data} open={featured.some((item) => item.id === entry.id)} />
         ))}
-      </div>
-    </section>
-
-    <section class="sections section" id="mechanisms">
-      <div class="eyebrow">Generative mechanisms</div>
-      <h2>Load-bearing concepts</h2>
-      <div class="pillars">
-        {cipherMeta.mechanisms.map((item) => (
-          <article class="pill">
-            <h3>{item}</h3>
-            <p>Framework-wide mechanism.</p>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="sections section" id="entries">
-      <div class="eyebrow">The entries</div>
-      <h2>{cipherEntries.length} glossary entries</h2>
-
-      <div class="entries">
-        {cipherEntries.map((entry, index) => (
-          <details class="entry" id={entry.slug}>
-            <summary>
-              <div class="mono small">{String(index + 1).padStart(2, '0')}</div>
-              <h3>{entry.title}</h3>
-              <p class="small">
-                {entry.cluster}{entry.kind ? ` · ${entry.kind}` : ''}{entry.badge ? ` · ${entry.badge}` : ''}
-              </p>
-            </summary>
-
-            <div>
-              <p class="deck">{entry.deck}</p>
-
-              {entry.body.map((paragraph) => <p>{paragraph}</p>)}
-
-              {entry.pairs?.length ? (
-                <p class="small"><strong>Pairs with:</strong> {entry.pairs.join(', ')}</p>
-              ) : null}
-
-              {entry.theories?.length ? (
-                <p class="small"><strong>Theoretical connections:</strong> {entry.theories.join(', ')}</p>
-              ) : null}
-
-              {entry.note ? <p class="small">{entry.note}</p> : null}
-            </div>
-          </details>
-        ))}
-      </div>
-    </section>
-
-    <section class="sections section" id="back">
-      <div class="card">
-        <div class="eyebrow">Back the book</div>
-        <h2>Fund the book. Build the archive. Own the vocabulary.</h2>
-        <p class="small">
-          This Astro version is intentionally static: no client-side framework, no dynamic rendering, just clean content structure and deployable output.
-        </p>
       </div>
     </section>
   </main>
-
-  <footer class="footer wrap">
-    <p>{cipherMeta.title} · {cipherMeta.date} · {cipherMeta.author}</p>
-  </footer>
-</Layout>
+</Base>
