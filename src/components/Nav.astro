@@ -1,0 +1,114 @@
+---
+const {
+  title = "The Cipher Archive",
+  subtitle = "cipherlotbo.netlify.app",
+  backHref = "#back",
+  backLabel = "Back Unnamed Intelligence",
+  links = [
+    { href: "#about", label: "About" },
+    { href: "#book", label: "The Book" },
+    { href: "#cipher", label: "The Cipher" },
+    { href: "#archive", label: "Archive" },
+    { href: "#back", label: "Back" },
+  ],
+} = Astro.props;
+---
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a class="nav-title" href="#top">{title}</a>
+    <span class="nav-sub">{subtitle}</span>
+  </div>
+
+  <ul class="nav-links">
+    {links.map((link) => (
+      <li><a href={link.href}>{link.label}</a></li>
+    ))}
+  </ul>
+
+  <a class="nav-cta" href={backHref}>{backLabel}</a>
+</nav>
+
+<style>
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    height: 52px;
+    padding: 0 var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(247, 244, 239, 0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+  }
+
+  .nav-title {
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-sub {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink3);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--ink3);
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover {
+    color: var(--oxblood);
+  }
+
+  .nav-cta {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--oxblood);
+    padding: 0.45rem 1.1rem;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+
+  .nav-cta:hover {
+    background: var(--ox-dim);
+  }
+
+  @media (max-width: 1000px) {
+    .nav-links {
+      display: none;
+    }
+
+    .site-nav {
+      padding: 0 2rem;
+    }
+  }
+</style>
