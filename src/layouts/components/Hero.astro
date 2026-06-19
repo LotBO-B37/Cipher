@@ -1,0 +1,198 @@
+---
+const {
+  ref = "Archive ref CA2026001 V18 Founding phase",
+  title = "Unnamed Intelligence",
+  subtitle = "The cognitive architecture the meritocracy forgot to count",
+  byline = "Rob Dawson SPACE CIC cipherlotbo.netlify.app May 2026",
+  description = "A book and a living archive, funded and governed by the community it belongs to. Sixty-two original concepts for working-class operational intelligence contributed, held, and permanently owned by the people who built it.",
+  quote = "Collectively we can demonstrate the desire we have to take ownership of our own experience and vocabulary.",
+  actions = [
+    { href: "#back", label: "Back Unnamed Intelligence", class: "btn-ox" },
+    { href: "#archive", label: "Submit an archive entry", class: "btn-ghost" },
+  ],
+  ledger = [],
+} = Astro.props;
+---
+
+<section class="hero" id="top">
+  <div class="hero-main">
+    <div class="hero-ref ox-label">{ref}</div>
+
+    <h1 class="hero-title">
+      {title}
+      <em>{subtitle}</em>
+    </h1>
+
+    <div class="hero-byline">{byline}</div>
+
+    <p class="hero-desc">{description}</p>
+
+    <blockquote class="hero-quote">{quote}</blockquote>
+
+    <div class="hero-actions">
+      {actions.map((action) => (
+        <a class={action.class} href={action.href}>
+          {action.label}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  {ledger.length > 0 && (
+    <aside class="hero-ledger">
+      {ledger.map((item) => (
+        <div class="ledger-block">
+          <div class="ledger-label">{item.label}</div>
+          <div class="ledger-value" set:html={item.html} />
+        </div>
+      ))}
+    </aside>
+  )}
+</section>
+
+<style>
+  .hero {
+    padding-top: 52px;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    min-height: 100vh;
+  }
+
+  .hero-main {
+    padding: 5rem var(--gap) 4rem 5rem;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-ref {
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin: 0 0 1.5rem;
+    max-width: 18ch;
+  }
+
+  .hero-title em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    color: var(--ink2);
+    line-height: 1.4;
+    margin-top: 0.6rem;
+  }
+
+  .hero-byline {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 2rem;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--ink2);
+    max-width: 52ch;
+    margin: 0 0 2rem;
+  }
+
+  .hero-quote {
+    border-left: 2px solid var(--oxblood);
+    padding-left: 1.2rem;
+    margin: 0 0 2.5rem;
+    font-family: var(--font-head);
+    font-style: italic;
+    font-size: 1.08rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-ox,
+  .btn-ghost {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+  }
+
+  .btn-ox {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    background: var(--oxblood);
+    color: var(--paper);
+    padding: 0.75rem 1.8rem;
+    border-radius: 2px;
+  }
+
+  .btn-ghost {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--ink3);
+    border-bottom: 1px solid var(--rule2);
+    padding-bottom: 1px;
+  }
+
+  .hero-ledger {
+    background: var(--paper2);
+    padding: 3rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .ledger-block {
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ledger-block:last-child {
+    border-bottom: none;
+  }
+
+  .ledger-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    margin-bottom: 0.5rem;
+  }
+
+  .ledger-value {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--ink2);
+  }
+
+  @media (max-width: 1000px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-ledger {
+      display: none;
+    }
+
+    .hero-main {
+      padding: 4rem 2rem;
+      border-right: none;
+    }
+  }
+</style>
